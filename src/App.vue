@@ -1,26 +1,28 @@
 <template>
-  <main>
-    <div class="search-box">
-      <input 
-      type="text" 
-      class="search-bar" 
-      placeholder="Search..."
-      v-model="query" 
-      @keypress="fetchWeather"
-      />
-    </div>
-    <div class="weather-wrap" v-if="typeof weather.main != 'undefined'">
-      <div class="location-box">
-        <div class="location">{{ weather.name }}</div>
-        <div class="date">{{ dateBuilder() }}</div>
+  <div id="app" :class="typeof weather.main != 'undefined' && weather.main.temp > 16 ? 'warm' : ''">
+    <main>
+      <div class="search-box">
+        <input 
+        type="text" 
+        class="search-bar" 
+        placeholder="Search..."
+        v-model="query" 
+        @keypress="fetchWeather"
+        />
       </div>
+      <div class="weather-wrap" v-if="typeof weather.main != 'undefined'">
+        <div class="location-box">
+          <div class="location">{{ weather.name }}</div>
+          <div class="date">{{ dateBuilder() }}</div>
+        </div>
 
-      <div class="weather-box">
-        <div class="temp">{{ Math.round(weather.main.temp) }}c</div>
-        <div class="weather">{{ weather.weather[0].main }}</div>
+        <div class="weather-box">
+          <div class="temp">{{ Math.round(weather.main.temp) }}c</div>
+          <div class="weather">{{ weather.weather[0].main }}</div>
+        </div>
       </div>
-    </div>
-  </main>
+    </main>
+  </div>
 </template>
 
 <script>
@@ -79,6 +81,10 @@ body {
   background-size: cover;
   background-position: bottom;
   transition: 0.4s;
+}
+
+#app.warm {
+  background-image: url('https://res.cloudinary.com/griffintech/image/upload/v1615498846/warm_bg_yedlw9.jpg');
 }
 
 main {
