@@ -26,13 +26,12 @@
 </template>
 
 <script>
+  import swal from 'sweetalert2'
 
 export default {
   name: 'App',
   data () {
     return {
-      api_key: 'f5d65dc0787116da50949f03f0c6006f',
-      url_base: 'https://api.openweathermap.org/data/2.5/',
       query: '',
       weather: {}
     }
@@ -40,10 +39,17 @@ export default {
   methods: {
     fetchWeather (e) {
       if (e.key == "Enter") {
-        fetch (`${this.url_base}weather?q=${this.query}&units=metric&APPID=${this.api_key}`)
+        fetch (`${process.env.VUE_APP_URLBASE}weather?q=${this.query}&units=metric&APPID=${process.env.VUE_APP_APIKEY}`)
         .then (res => {
-          return res.json();
-        }).then(this.setResults);
+          if (res.status == '404') {
+            swal.fire('Oops...', 'Looks like we don\'t have that data', 'info')
+          } else {
+            return res.json();
+          }
+        }).then(this.setResults)
+        .catch((error) => {
+          swal.fire(error.message, 'error');
+        });
       }
     },
     setResults (results) {
