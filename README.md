@@ -20,5 +20,5 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Preview
+See [the build](https://vue-weather-app-git-main-0dumz.vercel.app/) here.
