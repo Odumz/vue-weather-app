@@ -1,11 +1,11 @@
 <template>
-  <div id="app" :class="typeof weather.main != 'undefined' && weather.main.temp > 16 ? 'warm' : ''">
+  <div id="app" :class="typeof weather.main != 'undefined' ? weather.weather[0].main : ''">
     <main>
       <div class="search-box">
         <input 
         type="text" 
         class="search-bar" 
-        placeholder="Search..."
+        placeholder="eg Florida, USA..."
         v-model="query" 
         @keypress="fetchWeather"
         />
@@ -17,8 +17,19 @@
         </div>
 
         <div class="weather-box">
-          <div class="temp">{{ Math.round(weather.main.temp) }}c</div>
-          <div class="weather">{{ weather.weather[0].main }}</div>
+          <div class="temp">
+            {{ Math.round(weather.main.temp)}} C
+            <img :src=source  id='weatherIcon' />
+          </div>
+          <div class="weather">
+            {{ weather.weather[0].main }}
+          </div>
+          <div class="weather_description">
+            {{ weather.weather[0].description }}
+          </div>
+          <div class="temp_minmax">
+            Max: {{ Math.round(weather.main.temp_max )}} C || Min: {{ Math.floor(weather.main.temp_min )}} C 
+          </div>
         </div>
       </div>
     </main>
@@ -26,14 +37,15 @@
 </template>
 
 <script>
-  import swal from 'sweetalert2'
+import swal from 'sweetalert2';
 
 export default {
   name: 'App',
   data () {
     return {
       query: '',
-      weather: {}
+      weather: {},
+      source: ''
     }
   },
   methods: {
@@ -43,10 +55,11 @@ export default {
         .then (res => {
           if (res.status == '404') {
             swal.fire('Oops...', 'Looks like we don\'t have that data', 'info');
+            return;
           } else {
             return res.json();
           }
-        }).then(this.setResults)
+        }).then(this.setResults).then(this.setSource)
         .catch((error) => {
           swal.fire(error.message, 'error');
         });
@@ -54,6 +67,10 @@ export default {
     },
     setResults (results) {
       this.weather = results;
+    },
+    setSource () {
+      this.source = "http://openweathermap.org/img/wn/" + this.weather.weather[0].icon + ".png";
+      console.log(this.source);
     },
     dateBuilder () {
       let d = new Date();
@@ -89,7 +106,7 @@ body {
   transition: 0.4s;
 }
 
-#app.warm {
+#app.Clear {
   background-image: url('https://res.cloudinary.com/griffintech/image/upload/v1615498846/warm_bg_yedlw9.jpg');
 }
 
@@ -159,11 +176,38 @@ main {
   box-shadow: 3px 6px rgba(0, 0, 0, 0.25);
 }
 
+.temp_minmax {
+  display: inline-block;
+  padding: 10px 25px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 900;
+  text-shadow: 3px 4px rgba(0, 0, 0, 0.25);
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  margin: 30px 0px;
+  box-shadow: 3px 6px rgba(0, 0, 0, 0.25);
+}
+
 .weather-box .weather {
   color: #fff;
   font-size: 48px;
   font-weight: 700;
-  font-style: italic;
   text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
 }
+
+.weather_description {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 400;
+  font-style: italic;
+  text-shadow: 3px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media only screen and (max-width: 420px) {
+  .weather-box .temp {
+    font-size: 82px;
+  }
+}
+
 </style>
