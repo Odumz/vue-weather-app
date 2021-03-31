@@ -5,7 +5,7 @@
         <input 
         type="text" 
         class="search-bar" 
-        placeholder="Search..."
+        placeholder="eg Florida, USA..."
         v-model="query" 
         @keypress="fetchWeather"
         />
@@ -17,7 +17,7 @@
         </div>
 
         <div class="weather-box">
-          <div class="temp">{{ Math.round(weather.main.temp) }}c</div>
+          <div class="temp">{{ Math.round(weather.main.temp) }} <img src={{http://openweathermap.org/img/wn/${{weather.weather[0].icon}}.png}} /></div>
           <div class="weather">{{ weather.weather[0].main }}</div>
         </div>
       </div>
