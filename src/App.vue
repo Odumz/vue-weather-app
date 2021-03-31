@@ -19,7 +19,7 @@
         <div class="weather-box">
           <div class="temp">
             {{ Math.round(weather.main.temp)}} C
-            <img :src=source  id='weatherIcon' />
+            <img :src=source />
           </div>
           <div class="weather">
             {{ weather.weather[0].main }}
@@ -70,7 +70,6 @@ export default {
     },
     setSource () {
       this.source = "http://openweathermap.org/img/wn/" + this.weather.weather[0].icon + ".png";
-      console.log(this.source);
     },
     dateBuilder () {
       let d = new Date();
