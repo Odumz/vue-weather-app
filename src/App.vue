@@ -19,7 +19,7 @@
         <div class="weather-box">
           <div class="temp">
             {{ Math.round(weather.main.temp)}} C
-            <!-- <img src={{http://openweathermap.org/img/wn/${{weather.weather[0].icon}}.png}} /> -->
+            <img :src=source  id='weatherIcon' />
           </div>
           <div class="weather">
             {{ weather.weather[0].main }}
@@ -37,14 +37,15 @@
 </template>
 
 <script>
-  import swal from 'sweetalert2'
+import swal from 'sweetalert2';
 
 export default {
   name: 'App',
   data () {
     return {
       query: '',
-      weather: {}
+      weather: {},
+      source: ''
     }
   },
   methods: {
@@ -58,7 +59,7 @@ export default {
           } else {
             return res.json();
           }
-        }).then(this.setResults)
+        }).then(this.setResults).then(this.setSource)
         .catch((error) => {
           swal.fire(error.message, 'error');
         });
@@ -66,6 +67,10 @@ export default {
     },
     setResults (results) {
       this.weather = results;
+    },
+    setSource () {
+      this.source = "http://openweathermap.org/img/wn/" + this.weather.weather[0].icon + ".png";
+      console.log(this.source);
     },
     dateBuilder () {
       let d = new Date();
@@ -198,4 +203,11 @@ main {
   font-style: italic;
   text-shadow: 3px 4px rgba(0, 0, 0, 0.25);
 }
+
+@media only screen and (max-width: 420px) {
+  .weather-box .temp {
+    font-size: 82px;
+  }
+}
+
 </style>
