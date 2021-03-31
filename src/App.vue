@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="typeof weather.main != 'undefined' && weather.main.temp > 16 ? 'warm' : ''">
+  <div id="app" :class="typeof weather.main != 'undefined' ? weather.weather[0].main : ''">
     <main>
       <div class="search-box">
         <input 
@@ -28,7 +28,7 @@
             {{ weather.weather[0].description }}
           </div>
           <div class="temp_minmax">
-            Max: {{ Math.round(weather.main.temp_max )}} C || Min: {{ Math.round(weather.main.temp_min )}} C 
+            Max: {{ Math.round(weather.main.temp_max )}} C || Min: {{ Math.floor(weather.main.temp_min )}} C 
           </div>
         </div>
       </div>
@@ -54,6 +54,7 @@ export default {
         .then (res => {
           if (res.status == '404') {
             swal.fire('Oops...', 'Looks like we don\'t have that data', 'info');
+            return;
           } else {
             return res.json();
           }
@@ -100,7 +101,7 @@ body {
   transition: 0.4s;
 }
 
-#app.warm {
+#app.Clear {
   background-image: url('https://res.cloudinary.com/griffintech/image/upload/v1615498846/warm_bg_yedlw9.jpg');
 }
 
