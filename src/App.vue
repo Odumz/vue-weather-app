@@ -17,8 +17,19 @@
         </div>
 
         <div class="weather-box">
-          <div class="temp">{{ Math.round(weather.main.temp) }} <img src={{http://openweathermap.org/img/wn/${{weather.weather[0].icon}}.png}} /></div>
-          <div class="weather">{{ weather.weather[0].main }}</div>
+          <div class="temp">
+            {{ Math.round(weather.main.temp)}} C
+            <!-- <img src={{http://openweathermap.org/img/wn/${{weather.weather[0].icon}}.png}} /> -->
+          </div>
+          <div class="weather">
+            {{ weather.weather[0].main }}
+          </div>
+          <div class="weather_description">
+            {{ weather.weather[0].description }}
+          </div>
+          <div class="temp_minmax">
+            Max: {{ Math.round(weather.main.temp_max )}} C || Min: {{ Math.round(weather.main.temp_min )}} C 
+          </div>
         </div>
       </div>
     </main>
@@ -159,11 +170,31 @@ main {
   box-shadow: 3px 6px rgba(0, 0, 0, 0.25);
 }
 
+.temp_minmax {
+  display: inline-block;
+  padding: 10px 25px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 900;
+  text-shadow: 3px 4px rgba(0, 0, 0, 0.25);
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  margin: 30px 0px;
+  box-shadow: 3px 6px rgba(0, 0, 0, 0.25);
+}
+
 .weather-box .weather {
   color: #fff;
   font-size: 48px;
   font-weight: 700;
-  font-style: italic;
   text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
+}
+
+.weather_description {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 400;
+  font-style: italic;
+  text-shadow: 3px 4px rgba(0, 0, 0, 0.25);
 }
 </style>
