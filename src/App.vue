@@ -28,7 +28,7 @@
             {{ weather.weather[0].description }}
           </div>
           <div class="temp_minmax">
-            Max: {{ Math.round(weather.main.temp_max )}} C || Min: {{ Math.floor(weather.main.temp_min )}} C 
+            Max: {{ Math.round(weather.main.temp_max )}} °C || Min: {{ Math.floor(weather.main.temp_min )}} °C 
           </div>
         </div>
       </div>
