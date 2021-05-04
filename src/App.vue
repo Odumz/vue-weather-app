@@ -18,7 +18,7 @@
 
         <div class="weather-box">
           <div class="temp">
-            {{ Math.round(weather.main.temp)}} C
+            {{ Math.round(weather.main.temp)}} °C
             <img :src=source />
           </div>
           <div class="weather">
