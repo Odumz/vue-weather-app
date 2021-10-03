@@ -53,15 +53,14 @@ export default {
       if (e.key == "Enter") {
         fetch (`${process.env.VUE_APP_URLBASE}weather?q=${this.query}&units=metric&APPID=${process.env.VUE_APP_APIKEY}`)
         .then (res => {
-          if (res.status == '404') {
-            swal.fire('Oops...', 'Looks like we don\'t have that data', 'info');
-            return;
+          if (res.status === 404) {
+            return swal.fire('Oops...', 'Looks like we don\'t have that data', 'info');
           } else {
             return res.json();
           }
         }).then(this.setResults).then(this.setSource)
         .catch((error) => {
-          swal.fire(error.message, 'error');
+          console.log(error)
         });
       }
     },
